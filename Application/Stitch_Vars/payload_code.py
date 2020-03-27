@@ -209,7 +209,7 @@ import threading
 import subprocess
 from st_protocol import *
 from st_encryption import *
-from mss import ScreenshotError
+from mss import exception
 from time import strftime, sleep
 from contextlib import contextmanager\n'''
 
@@ -1047,7 +1047,7 @@ import threading
 import subprocess
 from Crypto import Random
 from Crypto.Cipher import AES
-from mss import ScreenshotError
+from mss import exception
 from time import strftime, sleep
 from contextlib import contextmanager
 from base64 import b64decode as INFO
