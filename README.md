@@ -5,6 +5,7 @@
  Stitch is ONLY intended to be used on your own pentesting labs, or with explicit consent from the owner of the property being tested.** 
 
 
+
 # About Stitch
 A Cross Platform Python Remote Administration Tool:
 
