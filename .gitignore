@@ -1,2 +1,4 @@
 *.pyc
 /Logs
+/Payloads
+/Configuration
