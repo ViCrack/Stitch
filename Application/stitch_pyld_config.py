@@ -122,13 +122,13 @@ def create_new_config():
 def confirm_config():
     clear_screen()
     print_st_config()
-    cur_config = raw_input("Would you like to use the current configurations? [Y/N]: ").lower()
+    cur_config = raw_input("Would you like to use the current configurations? [Y/n]: ").lower()
     if cur_config.startswith('yes') or cur_config == 'y':
         return True
     elif cur_config.startswith('no') or cur_config == 'n':
         return create_new_config()
     else:
-        return False
+        return True
 
 def get_conf_dir():
     i = 1
@@ -138,8 +138,8 @@ def get_conf_dir():
     os.makedirs(conf_dir)
 
     with open(st_config,'rb') as sc:
-        content=sc.read()
-        content += "AES Encryption Key: {}".format(aes_encoded)
+        content = sc.read()
+        content += "\nAES Encryption Key: {}".format(aes_encoded)
         with open(os.path.join(conf_dir,'PAYLOAD_CONFIG.log'),'wb') as pc:
             pc.write(content)
 
