@@ -528,7 +528,7 @@ def server_main():
     try:
         st_log.info('Starting Stitch')
         st = stitch_server()
-        st.do_listen('4040')
+        st.do_listen('4455')
         st.cmdloop()
     except KeyboardInterrupt:
         st_log.info("Exiting Stitch due to a KeyboardInterrupt")
