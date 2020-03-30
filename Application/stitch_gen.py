@@ -257,7 +257,7 @@ def run_exe_gen():
             win_progress.complete()
             st_print("[+] Exe generation is complete.")
 
-            nsis_creation = raw_input("\nWould you like to create NSIS Installers for your payloads? [y/n]: ")
+            nsis_creation = raw_input("\nWould you like to create NSIS Installers for your payloads? [y/N]: ")
             if nsis_creation.lower().startswith('y'):
                 if os.path.exists("C:\\Program Files (x86)\\NSIS\\makensis.exe"):
                     st_print("[*] Creating NSIS Installers...\n")

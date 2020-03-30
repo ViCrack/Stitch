@@ -6,8 +6,9 @@
 #                        Windows Payload Variables                             #
 ################################################################################
 
-win_payload_list = ['chrome','drive','IAStorIcon','SecEdit',
-                    'searchfilterhost','WUDFPort','MSASTUIL','WmiPrvSE']
+win_payload_list = ['drive']
+# win_payload_list = ['chrome','drive','IAStorIcon','SecEdit',
+#                     'searchfilterhost','WUDFPort','MSASTUIL','WmiPrvSE']
 
 win_payload_Icons = {'chrome':"..\\Icons\\chrome\\chrome.ico",
 'drive' : "..\\Icons\\drive\\drive.ico",
